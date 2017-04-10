@@ -81,7 +81,7 @@
         },
         "iotHubSku": {
             "type": "string",
-            "defaultValue": "F1",
+            "defaultValue": "S1",
             "metadata": {
                 "description": "The Iothub Sku"
             }
