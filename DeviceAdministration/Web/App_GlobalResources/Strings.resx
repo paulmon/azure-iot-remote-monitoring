@@ -242,7 +242,7 @@
     <comment>(Unused)</comment>
   </data>
   <data name="LetMeDefineMyOwnDeviceId" xml:space="preserve">
-    <value>Let me define my own Device ID</value>
+    <value>Let me define my own Devvice ID</value>
     <comment>Radio button label.</comment>
   </data>
   <data name="Manufacturer" xml:space="preserve">
