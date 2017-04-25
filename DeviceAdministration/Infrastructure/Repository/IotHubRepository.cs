@@ -30,17 +30,28 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Infr
         /// <returns></returns>
         public async Task<DeviceModel> AddDeviceAsync(DeviceModel device, SecurityKeys securityKeys)
         {
-            var iotHubDevice = new Device(device.DeviceProperties.DeviceID)
+            Device iotHubDevice;
+
+            try
             {
-                Authentication = new AuthenticationMechanism
+                iotHubDevice = await GetIotHubDeviceAsync(device.DeviceProperties.DeviceID);
+                securityKeys.PrimaryKey = iotHubDevice.Authentication.SymmetricKey.PrimaryKey;
+                securityKeys.SecondaryKey = iotHubDevice.Authentication.SymmetricKey.SecondaryKey;
+            }
+            catch (Exception)
+            {
+                iotHubDevice = new Device(device.DeviceProperties.DeviceID)
                 {
-                    SymmetricKey = new SymmetricKey
+                    Authentication = new AuthenticationMechanism
                     {
-                        PrimaryKey = securityKeys.PrimaryKey,
-                        SecondaryKey = securityKeys.SecondaryKey
+                        SymmetricKey = new SymmetricKey
+                        {
+                            PrimaryKey = securityKeys.PrimaryKey,
+                            SecondaryKey = securityKeys.SecondaryKey
+                        }
                     }
-                }
-            };
+                };
+            }
 
             await AzureRetryHelper.OperationWithBasicRetryAsync(async () =>
                 await this._deviceManager.AddDeviceAsync(iotHubDevice));

@@ -60,7 +60,8 @@ namespace Microsoft.Azure.Devices.Applications.RemoteMonitoring.DeviceAdmin.Web.
 
             if (!userHasAtLeastOneRole)
             {
-                if (rolesRequired.Contains(READ_ONLY_ROLE_NAME))
+                // until we can set roles a failure leads to access for everyone
+                //if (rolesRequired.Contains(READ_ONLY_ROLE_NAME))
                 {
                     return true;
                 }
